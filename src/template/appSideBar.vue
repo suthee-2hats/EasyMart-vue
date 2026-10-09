@@ -153,3 +153,148 @@ onMounted(async () => {
     </div>
   </aside>
 </template>
+
+<style scoped>
+.product-filters {
+    display: flex;
+    flex-direction: column;
+    width: 274px;
+    padding: 20px;
+    background: var(--c-white);
+}
+
+.product-filters span {
+    font-size: 16px;
+}
+
+.product-filters__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3px;
+    margin-bottom: 14px;
+}
+
+.product-filters__title {
+    margin: 0;
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 700;
+    color: #0d0c0d;
+}
+
+.product-filters__reset {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-family);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--c-primary);
+    cursor: pointer;
+}
+
+.product-filters__reset:focus-visible {
+    outline: 2px solid var(--c-primary);
+    outline-offset: 2px;
+}
+
+.product-filters__form {
+   
+    padding: 24px;
+    background: rgba(248, 247, 248, 0.68);
+    border-radius: 20px;
+}
+
+.product-filters__user {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 32px;
+    border-top: 1px solid #f0eef0;
+}
+
+.product-filters__user-image {
+    width: 56px;
+    height: 56px;
+    flex: 0 0 56px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #f8f7f8;
+}
+
+.product-filters__user-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-filters__user-placeholder {
+    font-size: 20px;
+    font-weight: 600;
+    color: #b6349a;
+}
+
+.product-filters__user-info {
+    min-width: 0;
+    margin-left: 12px;
+}
+
+.product-filters__user-name {
+    display: block;
+    overflow: hidden;
+    color: #171717;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 1080px) {
+    .product-filters {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        scrollbar-color: #d5d2d5 transparent;
+        max-width: 100%;
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition:
+            transform 0.3s ease,
+            visibility 0.3s ease;
+        z-index: 1100;
+    }
+
+    .product-filters::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .product-filters::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .product-filters::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background: #d5d2d5;
+    }
+
+    .product-filters::-webkit-scrollbar-thumb:hover {
+        background: #b0adb0;
+    }
+
+    .product-filters.is-open {
+        transform: translateX(0);
+        visibility: visible;
+        z-index: 9999;
+    }
+}
+</style>

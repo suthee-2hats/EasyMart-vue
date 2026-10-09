@@ -41,4 +41,6 @@ body {
     --c-black: #0d0c0d;
     --c-white: #ffffff;
     --c-primary: #d94fb3;
+    --font-family: 'Inter', sans-serif;
 }
+
