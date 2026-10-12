@@ -174,23 +174,31 @@
    Very Small Mobile
    ================================ */
 
-@media (max-width: 420px) {
-  .header-item-left {
+@media (max-width: 540px) {
+  /* Logo hidden; the middle area is given to the location */
+  .brand {
     display: none;
   }
 
-  .header-item-right {
-    width: 100%;
-  }
-
-  .header-navigation {
-    flex-wrap: wrap;
+  .header-item-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 0;
+    flex-shrink: 1;
   }
 
   .header-location {
     display: flex;
-    order: 1;
-    flex: 1;
+    align-items: center;
     justify-content: center;
+    flex: 1;
+  }
+
+  /* Right side keeps only the cart */
+  .header-item-right {
+    width: auto;
+    flex: 0 0 auto;
   }
 }

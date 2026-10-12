@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import AppHeader from './template/appHeader.vue'
 import AppSideBar from './template/appSideBar.vue'
 import AppCategorySelector from './template/appCategorySelector.vue'
+import AppHero from './template/appHero.vue'
+import AppProductSection from './template/appProductSection.vue'
 
 const isSidebarOpen = ref(false)
 
@@ -16,27 +18,24 @@ function closeSidebar() {
 </script>
 
 <template>
-  <AppHeader
-    :is-sidebar-open="isSidebarOpen"
-    @toggle-sidebar="toggleSidebar"
-  />
+  <AppHeader :is-sidebar-open="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
 
   <div class="sidebarAndCategories">
-    <AppSideBar
-      :is-open="isSidebarOpen"
-      @close="closeSidebar"
-    />
+    <AppSideBar :is-open="isSidebarOpen" @close="closeSidebar" />
 
     <main class="categories-main">
-      <AppCategorySelector />
+      <AppCategorySelector
+        @category-ready="handleCategoryChange"
+        @category-selected="handleCategoryChange"
+      />
+
+      <AppHero />
+
+      <AppProductSection :category="selectedCategory" />
     </main>
   </div>
 
-  <div
-    v-if="isSidebarOpen"
-    class="sidebar-overlay"
-    @click="closeSidebar"
-  ></div>
+  <div v-if="isSidebarOpen" class="sidebar-overlay" @click="closeSidebar"></div>
 </template>
 
 <style scoped>

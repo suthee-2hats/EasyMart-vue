@@ -272,7 +272,7 @@
    Very Small Mobile
    ================================ */
 
-@media (max-width: 420px) {
+@media (max-width: 540px) {
   .header-search {
     display: none;
   }

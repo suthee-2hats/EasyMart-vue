@@ -168,18 +168,8 @@
    Small Mobile
    ================================ */
 
-@media (max-width: 576px) {
+@media (max-width: 540px) {
   .header-login {
     display: none;
-  }
-}
-
-/* ================================
-   Very Small Mobile
-   ================================ */
-
-@media (max-width: 420px) {
-  .header-cart {
-    order: 2;
   }
 }
