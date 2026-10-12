@@ -43,6 +43,8 @@ body {
   --font-family: 'Inter', sans-serif;
 }
 
-* {
-  border: red 1px solid;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

@@ -1,19 +1,42 @@
 <script setup>
+import { ref } from 'vue'
 import AppHeader from './template/appHeader.vue'
 import AppSideBar from './template/appSideBar.vue'
 import AppCategorySelector from './template/appCategorySelector.vue'
+
+const isSidebarOpen = ref(false)
+
+function toggleSidebar() {
+  isSidebarOpen.value = !isSidebarOpen.value
+}
+
+function closeSidebar() {
+  isSidebarOpen.value = false
+}
 </script>
 
 <template>
-  <AppHeader />
+  <AppHeader
+    :is-sidebar-open="isSidebarOpen"
+    @toggle-sidebar="toggleSidebar"
+  />
 
   <div class="sidebarAndCategories">
-    <AppSideBar />
+    <AppSideBar
+      :is-open="isSidebarOpen"
+      @close="closeSidebar"
+    />
 
     <main class="categories-main">
       <AppCategorySelector />
     </main>
   </div>
+
+  <div
+    v-if="isSidebarOpen"
+    class="sidebar-overlay"
+    @click="closeSidebar"
+  ></div>
 </template>
 
 <style scoped>
@@ -28,5 +51,18 @@ import AppCategorySelector from './template/appCategorySelector.vue'
 .categories-main {
   flex: 1 1 0;
   min-width: 0;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1090;
+  background: rgb(0 0 0 / 40%);
+}
+
+@media (min-width: 1081px) {
+  .sidebar-overlay {
+    display: none;
+  }
 }
 </style>

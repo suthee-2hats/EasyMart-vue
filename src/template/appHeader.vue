@@ -4,6 +4,15 @@ import appSearch from './appSearch.vue'
 import logo from '@/img/icons/logoEasyMart.jpg'
 import menuIcon from '@/img/icons/menu.svg'
 
+defineProps({
+    isSidebarOpen: {
+        type: Boolean,
+        default: false
+    }
+})
+
+const emit = defineEmits(['toggle-sidebar'])
+
 const location = ref(' 10115 New York')
 
 </script>
@@ -18,9 +27,9 @@ const location = ref(' 10115 New York')
                     type="button"
                     class="menu-mobile-trigger btn"
                     aria-label="Open navigation menu"
-                    aria-controls="main-navigation"
-                    aria-expanded="false"
-                    
+                    aria-controls="product-filters"
+                    :aria-expanded="isSidebarOpen"
+                    @click="emit('toggle-sidebar')"
                 >
                     <img
                         :src="menuIcon"
@@ -80,9 +89,20 @@ const location = ref(' 10115 New York')
 
 <style scoped>
 .menu-mobile-trigger{
-
     display: none;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 6px;
+    cursor: pointer;
 }
+
+@media (max-width: 1080px) {
+    .menu-mobile-trigger {
+        display: inline-flex;
+    }
+}
+
 .btn{
     background-color: transparent;
     border: none;

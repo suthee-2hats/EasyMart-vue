@@ -3,6 +3,15 @@
 import { ref, reactive, onMounted } from 'vue'
 import SideBarFilter from './sidebar/sideBarFilter.vue'
 
+defineProps({
+  isOpen: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const emit = defineEmits(['close'])
+
 const filters = [
   {
     title: 'Price',
@@ -88,7 +97,9 @@ onMounted(async () => {
 
 <template>
   <aside
+    id="product-filters"
     class="product-filters"
+    :class="{ 'is-open': isOpen }"
     aria-label="Product filters"
   >
     <!-- Sidebar heading -->
@@ -103,6 +114,15 @@ onMounted(async () => {
         @click="resetFilters"
       >
         Reset
+      </button>
+
+      <button
+        type="button"
+        class="product-filters__close"
+        aria-label="Close filters"
+        @click="emit('close')"
+      >
+        &times;
       </button>
     </div>
 
@@ -199,6 +219,26 @@ onMounted(async () => {
     outline-offset: 2px;
 }
 
+.product-filters__close {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #0d0c0d;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.product-filters__close:hover {
+    background: #f0eef0;
+}
+
 .product-filters__form {
    
     padding: 24px;
@@ -254,6 +294,10 @@ onMounted(async () => {
 }
 
 @media (max-width: 1080px) {
+    .product-filters__close {
+        display: inline-flex;
+    }
+
     .product-filters {
         position: fixed;
         top: 0;
