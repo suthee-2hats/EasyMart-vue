@@ -1,0 +1,196 @@
+/* ================================
+   EasyMart Header - navigation
+   ================================ */
+
+/* Header content */
+.header-item-right {
+  display: flex;
+  align-items: center;
+  flex: 1;
+
+  /* Without this the nav's min-content width stops the flex item from
+     shrinking and the whole row overflows the header */
+  min-width: 0;
+}
+
+/* Navigation */
+.header-navigation {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+/* Location */
+.header-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  font-size: 14px;
+  color: #3e3b3f;
+}
+
+.header-location .ion {
+  font-size: 14px;
+}
+
+.location-toggle {
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.location-toggle:focus-visible {
+  outline: 2px solid #d94fb3;
+}
+
+.location-toggle img {
+  align-self: center;
+}
+
+/* Logo */
+.header-item-left {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.brand img {
+  display: block;
+  width: 134px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.brand:focus-visible {
+  outline: 2px solid #d94fb3;
+  outline-offset: 3px;
+}
+
+/* Mobile menu button */
+.menu-mobile-trigger {
+  display: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 18px;
+}
+
+.menu-mobile-trigger:focus-visible {
+  outline: 2px solid #d94fb3;
+  outline-offset: 3px;
+}
+
+/* ================================
+   Tablet
+   ================================ */
+
+@media (max-width: 1080px) {
+  /* Menu + Logo */
+  .header-item-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .menu-mobile-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .menu-mobile-trigger img {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  .menu-mobile-trigger:focus-visible {
+    outline: 2px solid #d94fb3;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .brand img {
+    display: block;
+    width: 124px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* Right side */
+  .header-item-right {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header-navigation {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+  }
+
+  /* Hide location on tablet */
+  .header-location {
+    display: none;
+  }
+}
+
+/* ================================
+   Small Mobile
+   ================================ */
+
+@media (max-width: 576px) {
+  .brand img {
+    width: 100px;
+    height: auto;
+  }
+}
+
+/* ================================
+   Very Small Mobile
+   ================================ */
+
+@media (max-width: 420px) {
+  .header-item-left {
+    display: none;
+  }
+
+  .header-item-right {
+    width: 100%;
+  }
+
+  .header-navigation {
+    flex-wrap: wrap;
+  }
+
+  .header-location {
+    display: flex;
+    order: 1;
+    flex: 1;
+    justify-content: center;
+  }
+}

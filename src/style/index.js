@@ -1,5 +1,8 @@
 import './footer.css'
 import './global.css'
 import './header.css'
+import './header-nav.css'
+import './header-cart.css'
+import './header-search.css'
 import './hero.css'
 import './productList.css'

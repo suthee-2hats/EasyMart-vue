@@ -1,0 +1,185 @@
+/* ================================
+   EasyMart Header - cart and login
+   ================================ */
+
+/* Cart */
+.header-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 95px;
+  height: 40px;
+  flex-shrink: 0;
+  background-color: var(--primary-pink);
+  border-radius: 39px;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.header-cart:hover {
+  background-color: #d94fb3;
+  text-decoration: none;
+}
+
+.header-cart:hover span {
+  color: #fff;
+}
+
+.header-cart:focus-visible {
+  outline: 2px solid #d94fb3;
+  outline-offset: 3px;
+}
+
+.header-cart .card-imageAndNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 40px;
+  height: 28px;
+  padding: 6px 4px;
+  background-color: var(--c-white);
+  border-radius: 32px;
+}
+
+.header-cart .card-imageAndNumber span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #b6349a;
+}
+
+.cart-count {
+  font-size: 11px;
+}
+
+.cart-label {
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: #0d0c0d;
+}
+
+/* Login */
+.header-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 124px;
+  height: 42px;
+  padding: 0 15px;
+  flex-shrink: 0;
+  background-color: transparent;
+  border: 1px solid var(--c-primary);
+  border-radius: 20px;
+  color: var(--c-black);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.header-login:hover {
+  background-color: #d94fb3;
+  text-decoration: none;
+}
+
+.header-login:hover span {
+  color: #fff;
+}
+
+/* Logged-in state */
+.header-login.is-logged-in {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.header-login.is-logged-in:hover {
+  background-color: transparent;
+}
+
+.header-login.is-logged-in:hover span {
+  color: var(--c-black);
+}
+
+.header-login.is-logged-in img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ================================
+   Tablet
+   ================================ */
+
+@media (max-width: 1080px) {
+  .header-cart {
+    width: 88px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .header-login {
+    width: 100px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+}
+
+/* ================================
+   Landscape Mobile
+   ================================ */
+
+@media (max-width: 768px) {
+  .header-cart {
+    justify-content: center;
+    width: 55px;
+    height: 40px;
+    color: #fff;
+    border-radius: 48.75px;
+  }
+
+  .header-cart .card-imageAndNumber {
+    width: 50px;
+    height: 35px;
+  }
+
+  .header-cart .cart-label {
+    display: none;
+  }
+
+  .header-cart .cart-count {
+    color: #fff;
+  }
+
+  .header-login {
+    width: 55px;
+  }
+
+  .header-login span {
+    display: none;
+  }
+}
+
+/* ================================
+   Small Mobile
+   ================================ */
+
+@media (max-width: 576px) {
+  .header-login {
+    display: none;
+  }
+}
+
+/* ================================
+   Very Small Mobile
+   ================================ */
+
+@media (max-width: 420px) {
+  .header-cart {
+    order: 2;
+  }
+}

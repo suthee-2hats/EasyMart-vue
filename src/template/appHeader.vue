@@ -88,29 +88,4 @@ const location = ref(' 10115 New York')
 </template>
 
 <style scoped>
-.menu-mobile-trigger{
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-    padding: 6px;
-    cursor: pointer;
-}
-
-@media (max-width: 1080px) {
-    .menu-mobile-trigger {
-        display: inline-flex;
-    }
-}
-
-.btn{
-    background-color: transparent;
-    border: none;
-}
-
-.header-location{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
 </style>
