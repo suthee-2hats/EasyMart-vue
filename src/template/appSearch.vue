@@ -1,4 +1,3 @@
-```vue
 <script setup>
 import { ref } from 'vue'
 
@@ -7,12 +6,31 @@ import cartIcon from '@/img/icons/Cart.svg'
 import loginIcon from '@/img/icons/Login.svg'
 
 const popularSearch = ref(['Beef', 'Rice', 'Fresh bakery', 'Fruits'])
+
+const query = ref('')
+const isDropdownOpen = ref(false)
+
+function openDropdown() {
+  isDropdownOpen.value = true
+}
+
+function closeDropdown() {
+  isDropdownOpen.value = false
+}
+
+function pickSearch(term) {
+  query.value = term
+  closeDropdown()
+}
+
+function onFocusOut(event) {
+  if (!event.currentTarget.contains(event.relatedTarget)) {
+    closeDropdown()
+  }
+}
 </script>
 
 <template>
-  <!-- Overlay -->
-  <div class="overlay"></div>
-
   <!-- Header navigation -->
   <nav
     id="main-navigation"
@@ -20,7 +38,14 @@ const popularSearch = ref(['Beef', 'Rice', 'Fresh bakery', 'Fruits'])
     aria-label="Main navigation"
   >
     <!-- Search -->
-    <form class="header-search" role="search" @submit.prevent>
+    <form
+      class="header-search"
+      role="search"
+      @submit.prevent
+      @focusin="openDropdown"
+      @focusout="onFocusOut"
+      @keydown.esc="closeDropdown"
+    >
       <div class="header-search_inside">
         <label class="sr-only" for="header-search">
           Search products
@@ -37,15 +62,20 @@ const popularSearch = ref(['Beef', 'Rice', 'Fresh bakery', 'Fruits'])
 
         <input
           id="header-search"
+          v-model="query"
           type="search"
           name="search"
           placeholder="Search by product name"
           autocomplete="off"
+          @focus="openDropdown"
         />
       </div>
 
       <!-- Search dropdown -->
-      <div class="search-dropdown">
+      <div
+        class="search-dropdown"
+        :class="{ 'is-open': isDropdownOpen }"
+      >
         <!-- Popular searches -->
         <div class="search-dropdown__popular">
           <p class="search-dropdown__title">
@@ -59,6 +89,7 @@ const popularSearch = ref(['Beef', 'Rice', 'Fresh bakery', 'Fruits'])
               :key="search"
               type="button"
               class="search-dropdown__item"
+              @click="pickSearch(search)"
             >
               {{ search }}
             </button>
@@ -112,6 +143,4 @@ const popularSearch = ref(['Beef', 'Rice', 'Fresh bakery', 'Fruits'])
 </template>
 
 <style scoped>
-
 </style>
-```
