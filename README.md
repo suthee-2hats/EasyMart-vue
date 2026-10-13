@@ -1,44 +1,107 @@
-# vue-ForEasyMart
+# Vue EasyMart
 
-This template should help get you started developing with Vue 3 in Vite.
+A Vue 3 e-commerce storefront for EasyMart, built with Vite, Pinia, and Vue Router. This project replicates an original SCSS/JS EasyMart interface using Vue components and plain CSS.
 
-## Recommended IDE Setup
+## Features
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Responsive layout (desktop, tablet, and mobile)
+- Category selector with horizontal scroll and emoji icons
+- Product filtering by price, discount, and rating (client-side)
+- Product carousel with navigation controls and responsive card counts
+- Search with live dropdown results (debounced API calls)
+- Sticky header with mobile sidebar navigation
+- Footer with navigation sections
 
-## Recommended Browser Setup
+## Tech Stack
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- [Vue 3](https://vuejs.org/) (Composition API with `<script setup>`)
+- [Vite](https://vite.dev/)
+- [Vue Router](https://router.vuejs.org/)
+- [Pinia](https://pinia.vuejs.org/)
+- Plain CSS (no Sass/SCSS)
 
-## Customize configuration
+## API
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Data is fetched from [DummyAPI Codesmash](https://dummyapi.codesmash.in/):
 
-## Project Setup
+| Endpoint | Purpose |
+|---|---|
+| `/api/products/categories` | Fetch product categories |
+| `/api/products/category/{slug}` | Fetch products for a category |
+| `/api/products/search` | Search products |
+| `/api/users/1` | Fetch user profile for sidebar |
+
+## Project Structure
+
+```text
+src/
+├── App.vue
+├── components/
+├── img/
+├── fonts/
+├── router/
+├── script/
+├── stores/
+├── style/
+└── template/
+    ├── appHeader.vue
+    ├── appSearch.vue
+    ├── appSideBar.vue
+    ├── sidebar/
+    │   └── sideBarFilter.vue
+    ├── appCategorySelector.vue
+    ├── appHero.vue
+    ├── appProductSection.vue
+    └── appFooter.vue
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22.18+ or >= 24.12
+- npm 9+
+
+### Installation
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Development
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Build
 
 ```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Preview
+
+```sh
+npm run preview
+```
+
+### Lint and Format
 
 ```sh
 npm run lint
 ```
+
+```sh
+npm run format
+```
+
+## Design Notes
+
+- Breakpoints: tablet-lg 1080px, tablet-md 991px, mobile-lg 767px, mobile-md 576px, mobile-sm 540px
+- Font family: Inter (woff2 fonts included)
+- Filtering is client-side; changing filters does not trigger new API requests
+
+## License
+
+Private project.
