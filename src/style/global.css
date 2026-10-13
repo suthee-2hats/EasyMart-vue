@@ -37,10 +37,19 @@ body {
 }
 
 :root {
-  --c-black: #0d0c0d;
+  --c-primary: #b6349a;
+  --c-secondary: #2b2d42;
+  --c-black: #000000;
   --c-white: #ffffff;
-  --c-primary: #d94fb3;
   --primary-pink: #fef5fd;
+
+  --bs-primary: var(--c-primary);
+  --bs-secondary: var(--c-secondary);
+  --swiper-navigation-size: 30px;
+  --swiper-theme-color: var(--c-black);
+  --swiper-navigation-color: var(--c-black);
+  --swiper-pagination-color: var(--c-black);
+
   --font-family: 'Inter', sans-serif;
 }
 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onMounted, onUnmounted } from 'vue'
 import AppHeader from './template/appHeader.vue'
 import AppSideBar from './template/appSideBar.vue'
 import AppCategorySelector from './template/appCategorySelector.vue'
@@ -8,6 +8,15 @@ import AppProductSection from './template/appProductSection.vue'
 
 const isSidebarOpen = ref(false)
 const selectedCategories = ref([])
+const selectedFilters = ref({
+  price: 'all',
+  discount: 'all',
+  rating: 'all',
+})
+
+function handleFiltersUpdate(nextFilters) {
+  selectedFilters.value = nextFilters
+}
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -16,6 +25,24 @@ function toggleSidebar() {
 function closeSidebar() {
   isSidebarOpen.value = false
 }
+
+const sidebarMediaQuery = window.matchMedia('(max-width: 1080px)')
+
+function handleKeydown(event) {
+  if (event.key !== 'Escape') return
+  if (!isSidebarOpen.value) return
+  if (!sidebarMediaQuery.matches) return
+
+  closeSidebar()
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 
 function handleCategoryReady(category) {
   if (!category?.slug) return
@@ -39,7 +66,11 @@ async function handleCategorySelected(category) {
   <AppHeader :is-sidebar-open="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
 
   <div class="sidebarAndCategories">
-    <AppSideBar :is-open="isSidebarOpen" @close="closeSidebar" />
+    <AppSideBar
+      :is-open="isSidebarOpen"
+      :selected-filters="selectedFilters"
+      @update:selected-filters="handleFiltersUpdate"
+    />
 
     <main class="categories-main">
       <AppCategorySelector
@@ -54,6 +85,7 @@ async function handleCategorySelected(category) {
         :id="`category-${category.slug}`"
         :key="category.slug"
         :category="category"
+        :filters="selectedFilters"
       />
     </main>
   </div>

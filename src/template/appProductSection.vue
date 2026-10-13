@@ -1,16 +1,55 @@
 <script setup>
-import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 
 const props = defineProps({
   category: {
     type: Object,
     default: null,
   },
+  filters: {
+    type: Object,
+    required: true,
+  },
 })
 
 const API_URL = 'https://dummyapi.codesmash.in/api/products'
 
 const products = ref([])
+const filteredProducts = computed(() => {
+  return products.value.filter((product) => {
+    const price = Number(product.price) || 0
+    const discount = Number(product.discountPercentage) || 0
+    const rating = Number(product.rating) || 0
+
+    // 1. Price
+    const priceFilter = props.filters.price
+
+    let matchesPrice = true
+
+    if (priceFilter === '0-100') {
+      matchesPrice = price < 100
+    } else if (priceFilter === '100-500') {
+      matchesPrice = price >= 100 && price < 500
+    } else if (priceFilter === '500-1000') {
+      matchesPrice = price >= 500 && price < 1000
+    } else if (priceFilter === '1000-plus') {
+      matchesPrice = price >= 1000
+    }
+
+    // 2. Discount
+    const minDiscount = props.filters.discount === 'all' ? 0 : Number(props.filters.discount)
+
+    const matchesDiscount = discount >= minDiscount
+
+    // 3. Rating
+    const minRating = props.filters.rating === 'all' ? 0 : Number(props.filters.rating)
+
+    const matchesRating = rating >= minRating
+
+    // All selected filter groups must match.
+    return matchesPrice && matchesDiscount && matchesRating
+  })
+})
 const isLoading = ref(false)
 const errorMessage = ref('')
 const track = ref(null)
@@ -101,12 +140,9 @@ const fetchProducts = async (category) => {
   currentIndex.value = 0
 
   try {
-    const response = await fetch(
-      `${API_URL}/category/${encodeURIComponent(category.slug)}`,
-      {
-        signal: requestController.signal,
-      },
-    )
+    const response = await fetch(`${API_URL}/category/${encodeURIComponent(category.slug)}`, {
+      signal: requestController.signal,
+    })
 
     if (!response.ok) {
       throw new Error(`Request failed: ${response.status}`)
@@ -144,6 +180,13 @@ watch(
   () => fetchProducts(props.category),
   { immediate: true },
 )
+
+watch(filteredProducts, async () => {
+  currentIndex.value = 0
+
+  await nextTick()
+  updatePosition()
+})
 
 onMounted(() => {
   if (typeof ResizeObserver === 'undefined' || !viewport.value) return
@@ -200,7 +243,15 @@ onUnmounted(() => {
             No products found in this category.
           </p>
 
-          <div v-else ref="track" class="product-section__group-track">
+          <p v-else-if="!isLoading && !filteredProducts.length" class="product-section__message">
+            No products match your selected filters.
+          </p>
+
+          <div
+            v-else-if="isLoading || filteredProducts.length"
+            ref="track"
+            class="product-section__group-track"
+          >
             <template v-if="isLoading">
               <article
                 v-for="index in 6"
@@ -215,7 +266,7 @@ onUnmounted(() => {
             </template>
 
             <article
-              v-for="product in products"
+              v-for="product in filteredProducts"
               v-else
               :key="product.id"
               class="product-card"
@@ -270,201 +321,3 @@ onUnmounted(() => {
     </div>
   </section>
 </template>
-
-<style scoped>
-.product-section {
-  width: 100%;
-  min-width: 0;
-  margin-bottom: 48px;
-  scroll-margin-top: 100px;
-}
-
-.product-section__track,
-.product-section__group,
-.product-section__viewport {
-  width: 100%;
-  min-width: 0;
-}
-
-.product-section__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.product-section__title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.product-section__controls {
-  display: flex;
-  gap: 8px;
-}
-
-.product-section__control {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid #e5e3e5;
-  border-radius: 50%;
-  background: #fff;
-  cursor: pointer;
-}
-
-.product-section__control:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.product-section__control:focus-visible {
-  outline: 2px solid #d94fb3;
-  outline-offset: 3px;
-}
-
-.product-section__viewport {
-  overflow: hidden;
-}
-
-.product-section__group-track {
-  display: flex;
-  align-items: stretch;
-  gap: 16px;
-  width: 100%;
-  transition: transform 300ms ease;
-}
-
-.product-card {
-  flex: 0 0 calc((100% - 80px) / 6);
-  min-width: 0;
-}
-
-.product-card__image {
-  display: block;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #f8f7f8;
-  aspect-ratio: 1;
-}
-
-.product-card__image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.product-card__name-link {
-  display: block;
-  margin-top: 12px;
-  color: inherit;
-  text-decoration: none;
-}
-
-.product-card__name {
-  display: -webkit-box;
-  overflow: hidden;
-  margin: 0;
-  font-size: 14px;
-  font-weight: 500;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.product-card__priceAndStock {
-  margin-top: 8px;
-}
-
-.product-card__pricePerLb p {
-  overflow: hidden;
-  margin: 0 0 6px;
-  color: #666;
-  font-size: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.product-card__price {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.product-card__price strong {
-  font-size: 16px;
-}
-
-.product-card__price del {
-  color: #888;
-  font-size: 12px;
-}
-
-.product-card__stock {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
-  color: #666;
-  font-size: 12px;
-}
-
-.product-card--loading {
-  animation: skeleton-pulse 1.2s ease-in-out infinite alternate;
-}
-
-.product-card--loading .product-card__image {
-  aspect-ratio: 1;
-}
-
-.product-card__bar {
-  height: 12px;
-  margin-top: 12px;
-  border-radius: 6px;
-  background: #e7e6e7;
-}
-
-.product-card__bar--short {
-  width: 60%;
-}
-
-.product-section__message {
-  padding: 24px 0;
-}
-
-.product-section__message button {
-  margin-left: 8px;
-}
-
-@keyframes skeleton-pulse {
-  to {
-    opacity: 0.5;
-  }
-}
-
-@media (max-width: 1080px) {
-  .product-card {
-    flex-basis: calc((100% - 48px) / 4);
-  }
-}
-
-@media (max-width: 767px) {
-  .product-card {
-    flex-basis: calc((100% - 16px) / 2);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .product-section__group-track {
-    transition: none;
-  }
-
-  .product-card--loading {
-    animation: none;
-  }
-}
-</style>
