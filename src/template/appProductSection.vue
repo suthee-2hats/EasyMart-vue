@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onUnmounted, nextTick } from 'vue'
+import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 
 const props = defineProps({
   category: {
@@ -16,6 +16,7 @@ const errorMessage = ref('')
 const track = ref(null)
 const viewport = ref(null)
 const currentIndex = ref(0)
+const maxIndex = ref(0)
 
 let requestController = null
 let requestId = 0
@@ -52,27 +53,31 @@ const getBounds = () => {
 }
 
 const updatePosition = () => {
-  if (!track.value) return
+  if (!track.value) {
+    maxIndex.value = 0
+    return
+  }
 
   const firstCard = track.value.querySelector('.product-card')
 
   if (!firstCard) {
     track.value.style.transform = 'translateX(0)'
     currentIndex.value = 0
+    maxIndex.value = 0
     return
   }
 
   const gap = Number.parseFloat(getComputedStyle(track.value).columnGap) || 0
   const cardWidth = firstCard.getBoundingClientRect().width
-  const maxIndex = getBounds()
 
-  currentIndex.value = Math.min(currentIndex.value, maxIndex)
+  maxIndex.value = getBounds()
+  currentIndex.value = Math.min(currentIndex.value, maxIndex.value)
 
   track.value.style.transform = `translateX(-${currentIndex.value * (cardWidth + gap)}px)`
 }
 
 const moveProducts = (direction) => {
-  currentIndex.value = Math.max(0, Math.min(getBounds(), currentIndex.value + direction))
+  currentIndex.value = Math.max(0, Math.min(maxIndex.value, currentIndex.value + direction))
 
   updatePosition()
 }
@@ -140,6 +145,13 @@ watch(
   { immediate: true },
 )
 
+onMounted(() => {
+  if (typeof ResizeObserver === 'undefined' || !viewport.value) return
+
+  resizeObserver = new ResizeObserver(() => updatePosition())
+  resizeObserver.observe(viewport.value)
+})
+
 onUnmounted(() => {
   requestController?.abort()
   resizeObserver?.disconnect()
@@ -170,7 +182,7 @@ onUnmounted(() => {
               type="button"
               class="product-section__control"
               aria-label="Next products"
-              :disabled="currentIndex >= getBounds() || isLoading"
+              :disabled="currentIndex >= maxIndex || isLoading"
               @click="moveProducts(1)"
             >
               <span aria-hidden="true">&rsaquo;</span>

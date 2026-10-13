@@ -2,11 +2,11 @@ import banner1Mobile from '@/img/banner/banner1_forMobile.webp'
 import banner1Desktop from '@/img/banner/banner1_forDesktop.webp'
 import banner1Fallback from '@/img/banner/banner1.webp'
 
-import banner2Mobile from '@/img/banner/banner2 _forMobile.webp'
+import banner2Mobile from '@/img/banner/banner2_forMobile.webp'
 import banner2Desktop from '@/img/banner/banner2_forDesktop.webp'
 import banner2Fallback from '@/img/banner/banner2.webp'
 
-import banner3Mobile from '@/img/banner/banner3 _forMobile.webp'
+import banner3Mobile from '@/img/banner/banner3_forMobile.webp'
 import banner3Desktop from '@/img/banner/banner3_forDesktop.webp'
 import banner3Fallback from '@/img/banner/banner3.png'
 
