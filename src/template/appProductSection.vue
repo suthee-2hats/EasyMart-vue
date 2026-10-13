@@ -9,7 +9,6 @@ const props = defineProps({
 })
 
 const API_URL = 'https://dummyapi.codesmash.in/api/products'
-const PRODUCTS_PER_PAGE = 20
 
 const products = ref([])
 const isLoading = ref(false)
@@ -97,15 +96,12 @@ const fetchProducts = async (category) => {
   currentIndex.value = 0
 
   try {
-    const params = new URLSearchParams({
-      limit: String(PRODUCTS_PER_PAGE),
-      skip: '0',
-      category: category.slug,
-    })
-
-    const response = await fetch(`${API_URL}?${params}`, {
-      signal: requestController.signal,
-    })
+    const response = await fetch(
+      `${API_URL}/category/${encodeURIComponent(category.slug)}`,
+      {
+        signal: requestController.signal,
+      },
+    )
 
     if (!response.ok) {
       throw new Error(`Request failed: ${response.status}`)
@@ -267,6 +263,8 @@ onUnmounted(() => {
 .product-section {
   width: 100%;
   min-width: 0;
+  margin-bottom: 48px;
+  scroll-margin-top: 100px;
 }
 
 .product-section__track,
