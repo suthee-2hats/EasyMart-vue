@@ -5,6 +5,7 @@ import AppSideBar from './template/appSideBar.vue'
 import AppCategorySelector from './template/appCategorySelector.vue'
 import AppHero from './template/appHero.vue'
 import AppProductSection from './template/appProductSection.vue'
+import AppFooter from './template/appFooter.vue'
 
 const isSidebarOpen = ref(false)
 const selectedCategories = ref([])
@@ -89,6 +90,7 @@ async function handleCategorySelected(category) {
       />
     </main>
   </div>
+  <AppFooter></AppFooter>
 
   <div v-if="isSidebarOpen" class="sidebar-overlay" @click="closeSidebar"></div>
 </template>

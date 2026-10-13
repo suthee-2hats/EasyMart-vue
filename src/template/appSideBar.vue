@@ -200,7 +200,6 @@ onMounted(async () => {
   width: 100%;
   margin-top: auto;
   padding-top: 32px;
-  border-top: 1px solid #f0eef0;
 }
 
 .product-filters__user-image {

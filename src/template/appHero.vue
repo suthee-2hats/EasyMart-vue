@@ -162,6 +162,7 @@ onUnmounted(() => {
                 :alt="index < heroSlides.length ? slide.alt : ''"
                 width="778"
                 height="544"
+                decoding="async"
                 :fetchpriority="index === 0 ? 'high' : 'auto'"
                 :loading="index === 0 ? 'eager' : 'lazy'"
               />
